@@ -12,14 +12,10 @@ jobs:
   setup:
     executor: continuation/default
     steps:
-      - checkout # checkout code
-      - run: # run a command
-          name: Generate config
-          command: |
-            ./generate-config > generated_config.yml
+      - checkout
+      - run: sed -e 's,MYDATABASE,'$DB_URL',g' < orbs.yaml
       - continuation/continue:
-          configuration_path: generated_config.yml # use newly generated config to continue
-
+          configuration_path: .circleci/continue-config.yml
 # our single workflow, that triggers the setup job defined above
 workflows:
   setup:
