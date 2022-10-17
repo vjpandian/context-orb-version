@@ -13,7 +13,6 @@ jobs:
     executor: continuation/default
     steps:
       - checkout
-      - run: sed -e 's,MYDATABASE,'$DB_URL',g' < orbs.yaml
       - continuation/continue:
           configuration_path: .circleci/continue-config.yml
 # our single workflow, that triggers the setup job defined above
