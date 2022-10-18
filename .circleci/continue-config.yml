@@ -1,0 +1,12 @@
+version: 2.1
+orbs:
+  aws-cli: circleci/aws-cli@$ORB_VERSION
+  
+jobs:
+  job-1:
+    executor: aws-cli/default
+    
+workflows:
+  main:
+    jobs:
+    - job-1
