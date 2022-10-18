@@ -1,22 +1,18 @@
 version: 2.1
-
-setup: true
-
-orbs:
-  continuation: circleci/continuation@0.1.2
-
-# our defined job, and its steps
+parameters:
+  image-tag:
+    type: string
+    default: "current"
 jobs:
-  setup:
-    executor: continuation/default
+  build:
+    docker:
+      - image: cimg/node:<< pipeline.parameters.image-tag >>
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    environment:
+      IMAGETAG: << pipeline.parameters.image-tag >>
+    working_directory: << pipeline.parameters.workingdir >>
     steps:
-      - checkout
-      - run: sed -i 's/$ORB_VERSION/$CIRCLE_ORB_VERSION/g' .circleci/continue-config.yml
-      - continuation/continue:
-          configuration_path: .circleci/continue-config.yml
+      - run: echo "Image tag used was ${IMAGETAG}"
 
-workflows:
-  setup:
-    jobs:
-      - setup:
-          context: org-global
