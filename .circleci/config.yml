@@ -1,9 +1,7 @@
 version: 2.1
 
-# this allows you to use CircleCI's dynamic configuration feature
 setup: true
 
-# the continuation orb is required in order to use dynamic configuration
 orbs:
   continuation: circleci/continuation@0.1.2
 
@@ -13,10 +11,12 @@ jobs:
     executor: continuation/default
     steps:
       - checkout
+      - run: sed -i 's/$ORB_VERSION/$CIRCLE_ORB_VERSION/g' .circleci/continue-config.yml
       - continuation/continue:
           configuration_path: .circleci/continue-config.yml
-# our single workflow, that triggers the setup job defined above
+
 workflows:
   setup:
     jobs:
-      - setup
+      - setup:
+          context: org-global
