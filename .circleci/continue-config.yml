@@ -5,6 +5,9 @@ orbs:
 jobs:
   job-1:
     executor: aws-cli/default
+    steps:
+    - checkout
+    - aws-cli/setup
     
 workflows:
   main:
