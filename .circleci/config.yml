@@ -3,6 +3,13 @@ parameters:
   image-tag:
     type: string
     default: "current"
+  orb-version:
+    type: string
+    default: "current"
+
+orbs:
+  aws-cli: circleci/aws-cli@<< pipeline.parameters.orb-version >>
+
 jobs:
   build:
     docker:
